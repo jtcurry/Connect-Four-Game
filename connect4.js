@@ -8,7 +8,7 @@
 let WIDTH = 7;
 let HEIGHT = 6;
 
-let currPlayer = 1; // active player: 1 or 2
+let currPlayer = 'p2'; // active player: 1 or 2
 const board = []; // array of rows, each row is array of cells  (board[y][x])
 
 //** makeBoard: set "board" to empty HEIGHT x WIDTH matrix array
@@ -56,10 +56,12 @@ const findSpotForCol = (x) => {
   return 0;
 }
 
-/** placeInTable: update DOM to place piece into HTML table of board */
-
+//** placeInTable: update DOM to place piece into HTML table of board
 const placeInTable = (y, x) => {
-  // TODO: make a div and insert into correct table cell
+  const selectedCell = document.getElementById(`${y}-${x}`);
+  const pieceDiv = document.createElement("div");
+  pieceDiv.classList.add("piece", `${currPlayer}`);
+  selectedCell.append(pieceDiv);
 }
 
 /** endGame: announce game end */
