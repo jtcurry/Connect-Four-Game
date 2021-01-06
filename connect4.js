@@ -5,12 +5,29 @@
  * board fills (tie)
  */
 
- 
 let WIDTH = 7;
 let HEIGHT = 6;
 
 let currPlayer = 1; // active player: 1 or 2
 const board = []; // array of rows, each row is array of cells  (board[y][x])
+let playComputer = false; // reflects if a 1 or 2 player game
+
+const buttonContainer = document.getElementById("buttoncontainer");
+const twoPlayerBtn = document.getElementById("2playerbtn");
+const onePlayerBtn = document.getElementById("1playerbtn");
+
+twoPlayerBtn.addEventListener("click", function () {
+  makeBoard();
+  makeHtmlBoard();
+  buttonContainer.classList.add("hidden");
+});
+
+onePlayerBtn.addEventListener("click", function () {
+  makeBoard();
+  makeHtmlBoard();
+  buttonContainer.classList.add("hidden");
+  playComputer = true;
+});
 
 //** makeBoard: set "board" to empty HEIGHT x WIDTH matrix array
 const makeBoard = () => {
@@ -63,9 +80,11 @@ const placeInTable = (y, x) => {
   selectedCell.append(pieceDiv);
 };
 
-//** endGame: announce game end
+//** endGame: announce game end and reload page
 const endGame = (msg) => {
-  alert(msg);
+  if (!alert(msg)) {
+    window.location.reload();
+  }
 };
 
 //** handleClick: handle click of column top to play piece
@@ -88,8 +107,32 @@ const handleClick = (evt) => {
   } else if (board.every((arr) => arr.every((value) => value !== undefined))) {
     return endGame("It's a tie!");
   }
-  //switch currPlayer 1 <-> 2
-  currPlayer === 1 ? (currPlayer = 2) : (currPlayer = 1);
+  //computer's turn if a 1 player game
+  playComputer === true
+    ? setTimeout(computerTurn, 300)
+    : currPlayer === 1
+    ? (currPlayer = 2)
+    : (currPlayer = 1);
+};
+
+//** computerTurn: handles computer random generated x and play piece
+const computerTurn = () => {
+  // switch to currentPlayer 3
+  currPlayer = 3;
+  const x = Math.floor(Math.random() * (WIDTH - 1));
+  const y = findSpotForCol(x);
+  if (y === null) {
+    return;
+  }
+  board[y][x] = currPlayer;
+  placeInTable(y, x);
+  if (checkForWin()) {
+    return endGame(`The Computer Won!`);
+  } else if (board.every((arr) => arr.every((value) => value !== undefined))) {
+    return endGame("It's a tie!");
+  }
+  //switch back to currentPLayer 1
+  currPlayer = 1;
 };
 
 //** checkForWin: check board cell-by-cell for "does a win start here?"
@@ -139,6 +182,3 @@ const checkForWin = () => {
     }
   }
 };
-
-makeBoard();
-makeHtmlBoard();

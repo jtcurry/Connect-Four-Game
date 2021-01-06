@@ -1,12 +1,13 @@
-/* game board table */
+/* MAIN */
 
+
+/* GAME BOARD */
 #board td {
   width: 50px;
   height: 50px;
-  border: solid 1px #666;
+  border: solid 1px blue;
+  border-radius: 50%; /*maybe remove this??*/
 }
-
-/* pieces are div within game table cells: draw as colored circles */
 
 .piece {
   margin: 5px;
@@ -15,16 +16,19 @@
   border-radius: 50%;
 }
 
-/* TODO: make pieces red/blue,  depending on player 1/2 piece */
 .piece.p1 {
   background-color: red;
 }
 
 .piece.p2 {
-  background-color: yellow;
+  background-color: gold;
 }
 
-/* column-top is table row of clickable areas for each column */
+.piece.p3 {
+  background-color: green;
+}
+
+
 
 #column-top td {
   border: dashed 1px lightgray;
@@ -32,4 +36,9 @@
 
 #column-top td:hover {
   background-color: gold;
+}
+
+/* BUTTONS */
+.hidden {
+  visibility: hidden;
 }
