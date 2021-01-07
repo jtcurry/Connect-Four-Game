@@ -1,18 +1,33 @@
 <!doctype html>
+
 <head>
   <title>Connect 4</title>
   <link href="connect4.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans:wght@700&family=Roboto&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.11/css/all.css">
 </head>
+
 <body>
 
-<div id="game">
-  <table id="board"></table>
-</div>
-<div id="buttoncontainer">
-  <button id="1playerbtn">1 Player</button>
-  <button id="2playerbtn">2 Player</button>
-</div>
-<script src="connect4.js"></script>
+  <div id="title">
+    <h1>CONNECT</h1>
+    <h2>4</h2>
+    <button id="playagain" class="hidden">Play Again?</button>
+  </div>
+
+  <div id="game">
+    <table id="board"></table>
+  </div>
+
+  <div id="buttoncontainer">
+    <button id="1playerbtn"><i class="fas fa-user fa-2x"></i>1 Player</button>
+    <button id="2playerbtn"><i class="fas fa-user-friends fa-2x"></i>2 Player</button>
+  </div>
+
+  <script src="connect4.js"></script>
 
 </body>
+
 </html>

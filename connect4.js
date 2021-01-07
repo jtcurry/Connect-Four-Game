@@ -13,20 +13,18 @@ const board = []; // array of rows, each row is array of cells  (board[y][x])
 let playComputer = false; // reflects if a 1 or 2 player game
 
 const buttonContainer = document.getElementById("buttoncontainer");
-const twoPlayerBtn = document.getElementById("2playerbtn");
-const onePlayerBtn = document.getElementById("1playerbtn");
+const titleDiv = document.getElementById("title");
 
-twoPlayerBtn.addEventListener("click", function () {
-  makeBoard();
-  makeHtmlBoard();
-  buttonContainer.classList.add("hidden");
-});
-
-onePlayerBtn.addEventListener("click", function () {
-  makeBoard();
-  makeHtmlBoard();
-  buttonContainer.classList.add("hidden");
-  playComputer = true;
+buttonContainer.addEventListener("click", (evt) => {
+  if (evt.target.id === "1playerbtn" || evt.target.id === "2playerbtn") {
+    makeBoard();
+    makeHtmlBoard();
+    titleDiv.classList.add("rotate");
+    buttonContainer.classList.add("hidden");
+  }
+  if (evt.target.id === "1playerbtn") {
+    playComputer = true;
+  }
 });
 
 //** makeBoard: set "board" to empty HEIGHT x WIDTH matrix array
@@ -82,9 +80,10 @@ const placeInTable = (y, x) => {
 
 //** endGame: announce game end and reload page
 const endGame = (msg) => {
-  if (!alert(msg)) {
-    window.location.reload();
-  }
+  alert(msg);
+  const playAgain = document.getElementById("playagain");
+  playAgain.classList.remove("hidden");
+  playAgain.addEventListener("click", () => window.location.reload());
 };
 
 //** handleClick: handle click of column top to play piece
@@ -109,7 +108,7 @@ const handleClick = (evt) => {
   }
   //computer's turn if a 1 player game
   playComputer === true
-    ? setTimeout(computerTurn, 300)
+    ? setTimeout(computerTurn, 400)
     : currPlayer === 1
     ? (currPlayer = 2)
     : (currPlayer = 1);
