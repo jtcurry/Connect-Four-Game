@@ -11,6 +11,7 @@ let HEIGHT = 6;
 let currPlayer = 1; // active player: 1 or 2
 const board = []; // array of rows, each row is array of cells  (board[y][x])
 let playComputer = false; // reflects if a 1 or 2 player game
+let disableClick = false; // disables click when computer's turn
 
 const buttonContainer = document.getElementById("buttoncontainer");
 const titleDiv = document.getElementById("title");
@@ -19,13 +20,18 @@ buttonContainer.addEventListener("click", (evt) => {
   if (evt.target.id === "1playerbtn" || evt.target.id === "2playerbtn") {
     makeBoard();
     makeHtmlBoard();
-    titleDiv.classList.add("rotate");
-    buttonContainer.classList.add("hidden");
+    startAnimation();
   }
   if (evt.target.id === "1playerbtn") {
     playComputer = true;
   }
 });
+
+//** animation spin sequence at start game
+const startAnimation = () => {
+  titleDiv.classList.add("rotate");
+  buttonContainer.classList.add("hidden");
+};
 
 //** makeBoard: set "board" to empty HEIGHT x WIDTH matrix array
 const makeBoard = () => {
@@ -88,6 +94,9 @@ const endGame = (msg) => {
 
 //** handleClick: handle click of column top to play piece
 const handleClick = (evt) => {
+  if (disableClick) {
+    return;
+  }
   // get x from ID of clicked cell
   const x = +evt.target.id;
   // get next spot in column (if none, ignore click)
@@ -107,11 +116,14 @@ const handleClick = (evt) => {
     return endGame("It's a tie!");
   }
   //computer's turn if a 1 player game
-  playComputer === true
-    ? setTimeout(computerTurn, 400)
-    : currPlayer === 1
-    ? (currPlayer = 2)
-    : (currPlayer = 1);
+  if (playComputer) {
+    disableClick = true;
+    setTimeout(computerTurn, 500);
+  } else if (currPlayer === 1) {
+    currPlayer = 2;
+  } else {
+    currPlayer = 1;
+  }
 };
 
 //** computerTurn: handles computer random generated x and play piece
@@ -130,8 +142,9 @@ const computerTurn = () => {
   } else if (board.every((arr) => arr.every((value) => value !== undefined))) {
     return endGame("It's a tie!");
   }
-  //switch back to currentPLayer 1
+  //switch back to currentPLayer 1 and allow clicks again
   currPlayer = 1;
+  disableClick = false;
 };
 
 //** checkForWin: check board cell-by-cell for "does a win start here?"
